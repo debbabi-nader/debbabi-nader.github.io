@@ -35,6 +35,8 @@
     <meta name="twitter:data2" content="Getting Started" />
     <meta name="twitter:site" content="@tryghost" />
     <meta name="twitter:creator" content="tryghost" />
+    <meta property="og:image:width" content="1600" />
+    <meta property="og:image:height" content="1067" />
     
     <script type="application/ld+json">
 {
@@ -48,7 +50,12 @@
     "author": {
         "@type": "Person",
         "name": "Ghost",
-        "image": "https://static.ghost.org/v2.0.0/images/ghost.png",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://static.ghost.org/v2.0.0/images/ghost.png",
+            "width": 400,
+            "height": 400
+        },
         "url": "http://localhost:2368/author/ghost/",
         "sameAs": [
             "https://ghost.org",
@@ -60,7 +67,12 @@
     "url": "http://localhost:2368/publishing-options/",
     "datePublished": "2019-08-31T15:59:48.000Z",
     "dateModified": "2019-08-31T15:59:44.000Z",
-    "image": "https://static.ghost.org/v2.0.0/images/publishing-options.jpg",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://static.ghost.org/v2.0.0/images/publishing-options.jpg",
+        "width": 1600,
+        "height": 1067
+    },
     "keywords": "Getting Started",
     "description": "The Ghost editor has everything you need to fully optimise your content. This is where you can add tags and authors, feature a post, or turn a post into a page.",
     "mainEntityOfPage": {

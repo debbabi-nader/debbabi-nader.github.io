@@ -35,6 +35,8 @@
     <meta name="twitter:data2" content="Getting Started" />
     <meta name="twitter:site" content="@tryghost" />
     <meta name="twitter:creator" content="tryghost" />
+    <meta property="og:image:width" content="1600" />
+    <meta property="og:image:height" content="1067" />
     
     <script type="application/ld+json">
 {
@@ -48,7 +50,12 @@
     "author": {
         "@type": "Person",
         "name": "Ghost",
-        "image": "https://static.ghost.org/v2.0.0/images/ghost.png",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://static.ghost.org/v2.0.0/images/ghost.png",
+            "width": 400,
+            "height": 400
+        },
         "url": "http://localhost:2368/author/ghost/",
         "sameAs": [
             "https://ghost.org",
@@ -60,7 +67,12 @@
     "url": "http://localhost:2368/the-editor/",
     "datePublished": "2019-08-31T15:59:49.000Z",
     "dateModified": "2019-08-31T15:59:44.000Z",
-    "image": "https://static.ghost.org/v2.0.0/images/writing-posts-with-ghost.jpg",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://static.ghost.org/v2.0.0/images/writing-posts-with-ghost.jpg",
+        "width": 1600,
+        "height": 1067
+    },
     "keywords": "Getting Started",
     "description": "Getting started with the editor is simple, with familiar formatting options in a functional toolbar and the ability to add dynamic content seamlessly.",
     "mainEntityOfPage": {
