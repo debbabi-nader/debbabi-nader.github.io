@@ -1,4 +1,3 @@
 User-agent: *
+Disallow:
 Sitemap: https://debbabi-nader.github.io/sitemap.xml
-Disallow: /ghost/
-Disallow: /p/
