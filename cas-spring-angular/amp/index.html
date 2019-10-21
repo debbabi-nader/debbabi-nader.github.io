@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html ⚡>
+<head>
+    <meta charset="utf-8">
+
+    <title>SSO and SLO for Spring Boot and Angular applications with CAS</title>
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <meta name="description" content="SSO and SLO implementation for Spring Boot and Angular applications with CAS, using Apache Tomcat Server" />
+    <link rel="shortcut icon" href="../../favicon.png" type="image/png" />
+    <link rel="canonical" href="../index.html" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    
+    <meta property="og:site_name" content="Nader Debbabi&#x27;s Blog" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="SSO and SLO for Spring Boot and Angular applications with CAS" />
+    <meta property="og:description" content="This blog post&#x27;s mere purpose is to implement SSO and SLO functionalities by integrating a Central Authentication Service, CAS, with a suite of two Spring Boot and Angular applications." />
+    <meta property="og:url" content="https://debbabi-nader.github.io/cas-spring-angular/" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ" />
+    <meta property="article:published_time" content="2019-10-21T00:54:53.000Z" />
+    <meta property="article:modified_time" content="2019-10-21T01:59:51.000Z" />
+    <meta property="article:tag" content="CAS" />
+    <meta property="article:tag" content="Spring" />
+    <meta property="article:tag" content="Angular" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SSO and SLO for Spring Boot and Angular applications with CAS" />
+    <meta name="twitter:description" content="This blog post&#x27;s mere purpose is to implement SSO and SLO functionalities by integrating a Central Authentication Service, CAS, with a suite of two Spring Boot and Angular applications." />
+    <meta name="twitter:url" content="https://debbabi-nader.github.io/cas-spring-angular/" />
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Nader Debbabi" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="CAS, Spring, Angular" />
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="720" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Nader Debbabi&#x27;s Blog",
+        "logo": "https://static.ghost.org/v1.0.0/images/ghost-logo.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Nader Debbabi",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://debbabi-nader.github.io/content/images/2019/08/identity-photo.jpg",
+            "width": 1472,
+            "height": 1776
+        },
+        "url": "https://debbabi-nader.github.io/author/nader/",
+        "sameAs": []
+    },
+    "headline": "SSO and SLO for Spring Boot and Angular applications with CAS",
+    "url": "https://debbabi-nader.github.io/cas-spring-angular/",
+    "datePublished": "2019-10-21T00:54:53.000Z",
+    "dateModified": "2019-10-21T01:59:51.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjExNzczfQ",
+        "width": 1080,
+        "height": 720
+    },
+    "keywords": "CAS, Spring, Angular",
+    "description": "This blog post&#x27;s mere purpose is to implement SSO and SLO functionalities by integrating a Central Authentication Service, CAS, with a suite of two Spring Boot and Angular applications.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://debbabi-nader.github.io/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 2.30" />
+    <link rel="alternate" type="application/rss+xml" title="Nader Debbabi&#x27;s Blog" href="../../rss/index.html" />
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,600,400" />
+    <style amp-custom>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{margin:0.67em 0;font-size:2em}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{position:relative;vertical-align:baseline;font-size:75%;line-height:0}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}amp-img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace, monospace;font-size:1em}button,input,optgroup,select,textarea{margin:0;color:inherit;font:inherit}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{cursor:pointer;-webkit-appearance:button}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{margin:0 2px;padding:0.35em 0.625em 0.75em;border:1px solid #c0c0c0}legend{padding:0;border:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-spacing:0;border-collapse:collapse}td,th{padding:0}html{max-height:100%;height:100%;font-size:62.5%;-webkit-tap-highlight-color:rgba(0, 0, 0, 0)}body{max-height:100%;height:100%;color:#3a4145;background:#f4f8fb;letter-spacing:0.01rem;font-family:"Merriweather", serif;font-size:1.8rem;line-height:1.75em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"kern" 1;-moz-font-feature-settings:"kern" 1;-o-font-feature-settings:"kern" 1}::-moz-selection{background:#d6edff}::selection{background:#d6edff}h1,h2,h3,h4,h5,h6{margin:0 0 0.3em 0;color:#2e2e2e;font-family:"Open Sans", sans-serif;line-height:1.15em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-moz-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-o-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1}h1{text-indent:-2px;letter-spacing:-1px;font-size:2.6rem}h2{letter-spacing:0;font-size:2.4rem}h3{letter-spacing:-0.6px;font-size:2.1rem}h4{font-size:1.9rem}h5{font-size:1.8rem}h6{font-size:1.8rem}a{color:#4a4a4a}a:hover{color:#111}p,ul,ol,dl{margin:0 0 2.5rem 0;font-size:1.5rem;text-rendering:geometricPrecision;-webkit-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-moz-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-o-font-feature-settings:"liga" 1, "onum" 1, "kern" 1}ol,ul{padding-left:2em}ol ol,ul ul,ul ol,ol ul{margin:0 0 0.4em 0;padding-left:2em}dl dt{float:left;clear:left;overflow:hidden;margin-bottom:1em;width:180px;text-align:right;text-overflow:ellipsis;white-space:nowrap;font-weight:700}dl dd{margin-bottom:1em;margin-left:200px}li{margin:0.4em 0}li li{margin:0}hr{display:block;margin:1.75em 0;padding:0;height:1px;border:0;border-top:#efefef 1px solid}blockquote{box-sizing:border-box;margin:1.75em 0 1.75em 0;padding:0 0 0 1.75em;border-left:#4a4a4a 0.4em solid;-moz-box-sizing:border-box}blockquote p{margin:0.8em 0;font-style:italic}blockquote small{display:inline-block;margin:0.8em 0 0.8em 1.5em;color:#ccc;font-size:0.9em}blockquote small:before{content:"\2014 \00A0"}blockquote cite{font-weight:700}blockquote cite a{font-weight:normal}mark{background-color:#fdffb6}code,tt{padding:1px 3px;border:#e3edf3 1px solid;background:#f7fafb;border-radius:2px;white-space:pre-wrap;font-family:Inconsolata, monospace, sans-serif;font-size:0.85em;font-feature-settings:"liga" 0;-webkit-font-feature-settings:"liga" 0;-moz-font-feature-settings:"liga" 0}pre{overflow:auto;box-sizing:border-box;margin:0 0 1.75em 0;padding:10px;width:100%;border:#e3edf3 1px solid;background:#f7fafb;border-radius:3px;white-space:pre;font-family:Inconsolata, monospace, sans-serif;font-size:0.9em;-moz-box-sizing:border-box}pre code,pre tt{padding:0;border:none;background:transparent;white-space:pre-wrap;font-size:inherit}kbd{display:inline-block;margin-bottom:0.4em;padding:1px 8px;border:#ccc 1px solid;background:#f4f4f4;border-radius:4px;box-shadow:0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 #fff inset;color:#666;text-shadow:#fff 0 1px 0;font-size:0.9em;font-weight:700}table{box-sizing:border-box;margin:1.75em 0;max-width:100%;width:100%;background-color:transparent;-moz-box-sizing:border-box}table th,table td{padding:8px;border-top:#efefef 1px solid;vertical-align:top;text-align:left;line-height:20px}table th{color:#000}table caption + thead tr:first-child th,table caption + thead tr:first-child td,table colgroup + thead tr:first-child th,table colgroup + thead tr:first-child td,table thead:first-child tr:first-child th,table thead:first-child tr:first-child td{border-top:0}table tbody + tbody{border-top:#efefef 2px solid}table table table{background-color:#fff}table tbody > tr:nth-child(odd) > td,table tbody > tr:nth-child(odd) > th{background-color:#f6f6f6}table.plain tbody > tr:nth-child(odd) > td,table.plain tbody > tr:nth-child(odd) > th{background:transparent}iframe,amp-iframe,.fluid-width-video-wrapper{display:block;margin:1.75em 0}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper amp-iframe{margin:0}textarea,select,input{margin:0 0 5px 0;padding:6px 9px;width:260px;outline:0;border:#e7eef2 1px solid;background:#fff;border-radius:4px;box-shadow:none;font-family:"Open Sans", sans-serif;font-size:1.6rem;line-height:1.4em;font-weight:100;-webkit-appearance:none}textarea{min-width:250px;min-height:80px;max-width:340px;width:100%;height:auto}input[type="text"]:focus,input[type="email"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="url"]:focus,input[type="password"]:focus,input[type="number"]:focus,input[type="date"]:focus,input[type="month"]:focus,input[type="week"]:focus,input[type="time"]:focus,input[type="datetime"]:focus,input[type="datetime-local"]:focus,textarea:focus{outline:none;outline-width:0;border:#bbc7cc 1px solid;background:#fff}select{width:270px;height:30px;line-height:30px}.clearfix:before,.clearfix:after{content:" ";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.main-header{position:relative;display:table;overflow:hidden;box-sizing:border-box;width:100%;height:50px;background:#5ba4e5 no-repeat center center;background-size:cover;text-align:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box}.content{background:#fff;padding-top:15px}.blog-title,.content{margin:auto;max-width:600px}.blog-title a{display:block;padding-right:16px;padding-left:16px;height:50px;color:#fff;text-decoration:none;font-family:"Open Sans", sans-serif;font-size:16px;line-height:50px;font-weight:600}.post{position:relative;margin-top:0;margin-right:16px;margin-left:16px;padding-bottom:0;max-width:100%;border-bottom:#ebf2f6 1px solid;word-wrap:break-word;font-size:0.95em;line-height:1.65em}.post-header{margin-bottom:1rem}.post-title{margin-bottom:0}.post-title a{text-decoration:none}.post-meta{display:block;margin:3px 0 0 0;color:#9eabb3;font-family:"Open Sans", sans-serif;font-size:1.3rem;line-height:2.2rem}.post-meta a{color:#9eabb3;text-decoration:none}.post-meta a:hover{text-decoration:underline}.post-meta .author{margin:0;font-size:1.3rem;line-height:1.3em}.post-date{display:inline-block;text-transform:uppercase;white-space:nowrap;font-size:1.2rem;line-height:1.2em}.post-image{margin:0;padding-top:3rem;padding-bottom:30px;border-top:1px #E8E8E8 solid}.post-content amp-img,.post-content amp-anim{position:relative;left:50%;display:block;padding:0;min-width:0;max-width:112%;width:calc(100% + 32px);height:auto;transform:translateX(-50%);-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%)}.footnotes{font-size:1.3rem;line-height:1.6em;font-style:italic}.footnotes li{margin:0.6rem 0}.footnotes p{margin:0}.footnotes p a:last-child{text-decoration:none}.site-footer{position:relative;margin:0 auto 20px auto;padding:1rem 15px;max-width:600px;color:rgba(0,0,0,0.5);font-family:"Open Sans", sans-serif;font-size:1.1rem;line-height:1.75em}.site-footer a{color:rgba(0,0,0,0.5);text-decoration:none;font-weight:bold}.site-footer a:hover{border-bottom:#bbc7cc 1px solid}.poweredby{display:block;float:right;width:45%;text-align:right}.copyright{display:block;float:left;width:45%}</style>
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+
+    <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>
+
+</head>
+
+<body class="amp-template">
+    <header class="main-header">
+        <nav class="blog-title">
+            <a href="../../index.html">Nader Debbabi&#x27;s Blog</a>
+        </nav>
+    </header>
+
+    <main class="content" role="main">
+        <article class="post">
+
+            <header class="post-header">
+                <h1 class="post-title">SSO and SLO for Spring Boot and Angular applications with CAS</h1>
+                <section class="post-meta">
+                    <p class="author">by <a href="../../author/nader/index.html">Nader Debbabi</a></p>
+                    <time class="post-date" datetime="2019-10-21">2019-10-21</time>
+                </section>
+            </header>
+            <figure class="post-image">
+                <amp-img src="https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ" width="600" height="400" layout="responsive"></amp-img>
+            </figure>
+            <section class="post-content">
+
+                <h2 id="overview">Overview</h2><p>It is often ordinary and typical to find in enterprises environment, a suite of applications and tools used internally by the personnel to perform a bunch of tasks and domain specific pieces of work. And although, a similar suite of applications if found in any enterprise ecosystem, may have different purposes and different features, they all still have a very one common requirement, that is authenticating users. And being in an enterprise environment, authorization and access levels management can be fairly added to this common requirement.</p><p>In software development and architecture, the word common, has in most cases led to a strong a believe, that something has to be encapsulated and isolated from other things, holding its own responsibilities as a self contained component. And in the case of the authentication as a one common requirement, the concepts of <strong>Single Sign On</strong>, <strong>SSO</strong>, and <strong>Single Log Out</strong>, <strong>SLO</strong>, has not recently emerged to emphasize the necessity to separate the responsibility of authenticating users from the suite of the used applications and grant it to a one centralized self contained software component.</p><p>This blog post's mere purpose is to implement <strong>SSO</strong> and <strong>SLO</strong> functionalities by integrating a <strong>Central Authentication Service</strong>, <strong>CAS</strong>, with a suite of two <strong>Spring Boot</strong> and <strong>Angular</strong> applications. The code source and the resources used in this blog post, are available on Github, links are specified in the <strong>resources</strong> section.</p><h2 id="prerequisites">Prerequisites</h2><p>The tools listed down below and their versions, are used to build the ecosystem described in this blog post,</p><ul><li>Maven 3.6.2</li><li>Java 1.8</li><li>Node.js 10.16.0 and NPM 6.9.0</li><li>Angular CLI 8.0.2</li><li>Apache Tomcat Server 9.0.22</li><li>PostgreSQL 11.5</li><li>Git</li></ul><h2 id="cas-server">CAS server</h2><p>CAS is an enterprise grade and open source SSO and SLO implementation maintained by <a href="https://www.apereo.org">Apereo</a> and a large community of contributors. This section is mainly focused on the installation, configuration and deployment of the CAS server to get started. And the discussion about SSO and SLO workflows will be held until the artifacts are ready and put together.</p><h3 id="about-cas-war-overlay">About CAS WAR overlay</h3><p>CAS itself is based on Spring Boot, and it uses a WAR overlay strategy to encourage the customization of certain behaviors and resources instead of dealing with the whole codebase and maintaining it. It helps to easily identify changes, and reproduce the same artifact in a consistent fashion.</p><p>The first order of business is to clone the CAS WAR overlay template from its git repository and to select the <code>5.3</code> version, as it uses Maven as a project management tool, by switching to its specific remote branch,</p><pre><code class="language-sh">git clone https://github.com/apereo/cas-overlay-template.git cas-server
+git checkout remotes/origin/5.3
+</code></pre>
+<p>After a successful execution of the previous commands, the cloned CAS template should be similar to the following,</p><pre><code class="language-sh">cas-server/
+│── LICENSE.txt
+│── README.md
+│── build.cmd
+│── build.sh
+│── etc
+│   │── cas
+│       │── config
+│           │── cas.properties
+│           │── log4j2.xml
+│── maven
+│   │── maven-wrapper.jar
+│   │── maven-wrapper.properties
+│── mvnw
+│── mvnw.bat
+│── pom.xml
+</code></pre>
+<p>It worths the mention, that the cloned template does not contain any source code. At the build time, Maven will attempts to download the provided binary artifact and any dependency needed, based on the project description in the <code>pom.xml</code> file. Then it will attempt to locate the customized files and the overridden configurations inside the WAR overlay and add them to the final <code>cas.war</code> artifact. These customized files and overridden configurations, in order to be located successfully, must be added under <code>src/main/resources</code> in the case of configurations and UI tweaking, and under <code>src/main/java</code> in the case of behavioral changes via third party components or custom java classes.</p><p>The next step is to create the resources folder,</p><pre><code class="language-sh">cd cas-server
+mkdir -p src/main/resources
+</code></pre>
+<p>Then to efficiently detect the required changes and customizations, we perform a simple build and inspect the resultant artifact,</p><pre><code class="language-sh">mvn clean package
+</code></pre>
+<p>The resultant artifact under the target folder should be similar to the following,</p><pre><code class="language-sh">cas-server/target/cas
+│── META-INF
+│── WEB-INF
+│   │── classes
+│   │   │── META-INF/...
+│   │   │── apereo.properties
+│   │   │── application.properties
+│   │   │── application.yml
+│   │   │── bootstrap.properties
+│   │   │── cas-theme-default.properties
+│   │   │── log4j2.xml
+│   │   │── messages.properties
+│   │   │── org/apereo/cas/...
+│   │   │── services
+│   │   │   │── Apereo-10000002.json
+│   │   │   │── HTTPSandIMAPS-10000001.json
+│   │   │── static/...
+│   │   │── templates/...
+│   │   │── truststore.jks
+│   │   │── user-details.properties
+│   │   │── webflow/...
+│   │── lib/...
+│── org/springframework/boot/loader/...
+</code></pre>
+<p>The inspection of the build output, reveals clearly the shape of a typical WAR deployment folder. And for sake of brevity, only some parts of the WAR output which worth the explanation are mentioned above.</p><p>The first note to take at this stage is, that the files located directly under <code>cas-server/target/cas/WEB-INF/classes</code> are the configuration files which more likely require customizations, and this is done by creating their peers under the <code>src/main/resources</code> folder in the overlay with the exact same names and the needed customizations. Say for example, that <code>application.properties</code> has some configurations that need to be altered, then we create a file with the same name <code>application.properties</code> under <code>src/main/resources</code> folder in the overlay, we copy the content of the original file in the new one and change its content as desired. When building again we can notice that the new file has overrode the original one and the changes has took place successfully. And with this method, every aspect and behavior in CAS can be controlled by adding, removing and modifying files in the overlay, we just have to pay attention to the customized file names and their location in the overlay in regard to their peers in the WAR build.</p><p>The next note, is about the customization of the CAS UI, with the same approach described previously we can modify the files under the static and templates folders by creating their peers in the overlay.</p><h3 id="cas-server-setup">CAS server setup</h3><p>After this brief explanation about the CAS WAR overlay, and its approach of configuration, we can jump directly into the important customizations and we will be starting by the <code>pom.xml</code> file to remove the embedded Tomcat server as we are planing to provide our own Servlet container,</p><pre><code class="language-xml">&lt;!-- ... --&gt;
+&lt;properties&gt;
+    &lt;!-- ... --&gt;
+    &lt;!-- &lt;app.server&gt;-tomcat&lt;/app.server&gt; --&gt;
+    &lt;app.server&gt;&lt;/app.server&gt;
+    &lt;!-- ... --&gt;
+&lt;/properties&gt;
+&lt;!-- ... --&gt;
+</code></pre>
+<p>Then, we replace the default <code>log4j</code> configuration by copying the provided <code>log4j2.xml</code> file under <code>cas-server/etc/cas/config</code> into <code>src/main/resources</code> as it is more suitable for logging when deploying to a provided Servlet container,</p><pre><code class="language-sh">cp etc/cas/config/log4j2.xml src/main/resources
+</code></pre>
+<p>Next, we create the <code>application.properties</code> file under <code>src/main/resources</code> in which the required configurations and properties will be contained. The entire list of configurations and their descriptions can be found <a href="https://apereo.github.io/cas/5.3.x/installation/Configuration-Properties.html">here</a>, and the default configurations can be found in the original <code>application.properties</code> after the first build. However, the configurations needed at this step are listed down below,</p><pre><code class="language-sh">##
+# CAS Server Context Configuration
+#
+spring.http.encoding.charset=UTF-8
+spring.http.encoding.enabled=true
+spring.http.encoding.force=true
+
+##
+# CAS Management/Actuator Configuration
+#
+endpoints.enabled=false
+endpoints.sensitive=true
+
+endpoints.restart.enabled=false
+endpoints.shutdown.enabled=false
+
+management.security.enabled=true
+management.security.roles=ACTUATOR,ADMIN
+management.security.sessions=IF_REQUIRED
+management.context-path=/status
+management.add-application-context-header=false
+
+management.health.status.order=WARN, DOWN, OUT_OF_SERVICE, UNKNOWN, UP
+
+security.basic.authorize-mode=role
+security.basic.path=/cas/status/**
+
+##
+# CAS Thymeleaf View Configuration
+#
+spring.thymeleaf.encoding=UTF-8
+spring.thymeleaf.cache=true
+spring.thymeleaf.mode=HTML
+spring.thymeleaf.template-resolver-order=100
+
+##
+# CAS AspectJ Configuration
+#
+spring.aop.auto=true
+spring.aop.proxy-target-class=true
+
+##
+# CAS Log4j Configuration
+#
+server.context-parameters.isLog4jAutoInitializationDisabled=true
+
+##
+# CAS Authentication Credentials
+#
+cas.authn.accept.users=casuser::Mellon
+
+cas.server.name=https://localhost:8443
+cas.server.prefix=https://localhost:8443/cas
+
+cas.adminPagesSecurity.ip=127\.0\.0\.1
+</code></pre>
+<p>Most of the configurations listed above, are just defaults and does not need any further discussion. However the most important property upon which we have to stop, is the <code>cas.authn.accept.users</code>. This property defines a default user with the username <strong>casuser</strong> and the password <strong>Mellon</strong>, we will be using those credentials in the next step to test the very first login operation.</p><p>All we need to do now, is to test the current configuration of the CAS server after building and deploying it to an Apache Tomcat server, to do so, we use Maven again to build the artifact from within the <code>cas-server</code> folder,</p><pre><code class="language-sh">mvn clean package
+</code></pre>
+<p>Next, we copy the resultant artifact to Tomcat's <code>webapps</code> folder,</p><pre><code class="language-sh"># $CATALINA_HOME is an environment variable
+# that points to the installation folder of Tomcat
+cp -r tagret/cas/. $CATALINA_HOME/webapps/cas
+</code></pre>
+<p>It is very important to note at this stage that CAS SSO functionalities will fail if the deployment server, is not properly configured to work with <code>SSL</code>. The connections to the CAS server and between the CAS server and the CAS services should be only made over <code>HTTPS</code>. The Apache Tomcat server used in this blog post, uses a locally generated <code>keystore</code> named <strong>thekeystore</strong> with <strong>changeit</strong> as a password, as mentioned by this snippet which is taken from the <code>server.xml</code> file located under the <code>$CATALINA_HOME/conf</code> folder,</p><pre><code class="language-xml">&lt;!-- ... --&gt;
+&lt;Connector port="8443" 
+    protocol="org.apache.coyote.http11.Http11NioProtocol"
+    maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
+    keystoreFile="/Users/nader/keystores/thekeystore"
+    keystorePass="changeit" clientAuth="false" sslProtocol="TLS" /&gt;
+&lt;!-- ... --&gt;
+</code></pre>
+<p>The generation and the registration of a <code>keystore</code> are not a part of the scope of this blog post.</p><p>After running, the Tomcat server and visiting <code>https://localhost:8443/cas</code>, the following login UI should appear successfully,</p><figure class="kg-card kg-image-card kg-card-hascaption"><figcaption>CAS login UI</figcaption></figure><p>Using the configured credentials previously, <strong>casuser</strong> and <strong>Mellon</strong>, we can gladly confirm that we have reached the first milestone of this blog post,</p><figure class="kg-card kg-image-card kg-card-hascaption"><figcaption>CAS successful login UI</figcaption></figure><h3 id="cas-database-authentication">CAS database authentication</h3><p>While using a hardcoded users credentials in the CAS configuration, may be suitable for a simple test case as the one we did previously, it's still not an appropriate approach for a production use case. Therefore, connecting the CAS server to its own database server or its own LDAP directory, in which users accounts are stored and managed, is a more reasonable approach.</p><p>In this blog post, we will be using Postgres as a database server. However, any other database server or LDAP directory can be used.</p><p>We start by adding the required dependencies for the CAS server to support JDBC to the <code>default</code> profile in the <code>pom.xml</code> file,</p><pre><code class="language-xml">&lt;!-- ... --&gt;
+&lt;profiles&gt;
+    &lt;profile&gt;
+        &lt;activation&gt;
+            &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+        &lt;/activation&gt;
+        &lt;id&gt;default&lt;/id&gt;
+        &lt;dependencies&gt;
+            &lt;!-- ... --&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.apereo.cas&lt;/groupId&gt;
+                &lt;artifactId&gt;cas-server-support-jdbc&lt;/artifactId&gt;
+                &lt;version&gt;${cas.version}&lt;/version&gt;
+            &lt;/dependency&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.apereo.cas&lt;/groupId&gt;
+                &lt;artifactId&gt;cas-server-support-jdbc-drivers&lt;/artifactId&gt;
+                &lt;version&gt;${cas.version}&lt;/version&gt;
+            &lt;/dependency&gt;
+            &lt;!-- ... --&gt;
+        &lt;/dependencies&gt;
+    &lt;/profile&gt;
+    &lt;!-- ... --&gt;
+&lt;profiles&gt;
+&lt;!-- ... --&gt;
+</code></pre>
+<p>Next, we append the following configurations to the <code>application.properties</code> file in the overlay,</p><pre><code class="language-sh">##
+# Database Authentication Configuration
+#
+cas.authn.jdbc.query[0].url=jdbc:postgresql://127.0.0.1:5432/cas
+cas.authn.jdbc.query[0].user=cas
+cas.authn.jdbc.query[0].password=cas
+cas.authn.jdbc.query[0].driver-class=org.postgresql.Driver
+cas.authn.jdbc.query[0].dialect=org.hibernate.dialect.PostgreSQL9Dialect
+cas.authn.jdbc.query[0].ddl-auto=update
+cas.authn.jdbc.query[0].sql=SELECT * FROM users WHERE email = ?
+cas.authn.jdbc.query[0].fieldPassword=password
+cas.authn.jdbc.query[0].passwordEncoder.type=BCRYPT
+</code></pre>
+<p>This configuration snippet, informs the CAS server to connect to a database under the name <code>cas</code>, using the username <code>cas</code> and the password <code>cas</code>. The <code>cas.authn.jdbc.query[0].sql</code> property provides the CAS server with a <code>SQL</code> request which will be used to fetch a user by its principal, the email column. Furthermore, the <code>cas.authn.jdbc.query[0].fieldPassword</code> and the <code>cas.authn.jdbc.query[0].passwordEncoder.type</code> properties, specify respectively, the password column name and the encryption type used for the passwords storage, in this case it's <code>BCRYPT</code>. If the passwords are stored as plaintext, the encryption type shall be set to <code>NONE</code>.</p><p>More advanced properties for the database authentication can be found <a href="https://apereo.github.io/cas/5.3.x/installation/Configuration-Properties.html#database-authentication">here</a>.</p><p>Down below is a sample of the users table from the <code>cas</code> database,</p><table>
+<thead>
+<tr>
+<th>id</th>
+<th>email</th>
+<th>password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5dcd8f39...71</td>
+<td><code>meredith.heidenreich@email.com</code></td>
+<td>$2a$10$Ir...HW</td>
+</tr>
+<tr>
+<td>f26c1d5c...3b</td>
+<td><code>delmer.stehr@email.com</code></td>
+<td>$2a$10$0R...U6</td>
+</tr>
+<tr>
+<td>e4be9950...96</td>
+<td><code>valentin.kohler@email.com</code></td>
+<td>$2a$10$8c...xG</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+<p>Finally, we set a blank value to the <code>cas.authn.accept.users</code> property, to prevent authentication using hardcoded users credentials,</p><pre><code class="language-sh">##
+# CAS Authentication Credentials
+#
+# cas.authn.accept.users=casuser::Mellon
+cas.authn.accept.users=
+</code></pre>
+<p>After rebuilding and deploying the CAS server again, the simple login operation tested previously should succeed again using one of the email addresses and its associated password stored in the <code>cas</code> database.</p><h2 id="cas-services">CAS services</h2><p>Now that the CAS server is configured and ready to authenticate users, its time to move toward the CAS services, and explain the relation between the CAS server and its services and implement the SSO and SLO functionalities. To do so, we will use a concrete example, assuming that a company named "ESports", uses for its own purposes, two web applications named "ESports-UCL" and "ESports-NBA". These two simple applications, list for authenticated users, all the teams competing in the "UCL" and "NBA" competitions respectively. Therefore, "ESports-UCL" and "ESports-NBA", are the two CAS services of our example.</p><p>A CAS service is basically, a web application that uses a CAS server for authentication, independently of the technologies used for its implementation.</p><p>The two CAS services of this example, will be developed using Spring framework for their backend implementation, Angular framework for their frontend implementation, and each service has its own database in a Postgres server. And since the both services have very similar use cases, we will focus mainly on the "ESports-UCL" service.</p><h3 id="cas-services-registration">CAS services registration</h3><p>CAS server, does not allow simply any application to use it for authentication, and it does allow communication only with the registered services. In order to register a service in the CAS server service registry, there are a couple of approaches offered by the CAS server, including JSON, LDAP, JPA and many other alternatives. In this example we will register the "ESports-UCL" and the "ESports-NBA" services using JSON service registry, and for this purpose we have to configure the CAS server one last time.</p><p>The first step, is to include the JSON service registry dependency in the <code>pom.xml</code> file of the CAS WAR overlay.</p><pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.apereo.cas&lt;/groupId&gt;
+    &lt;artifactId&gt;cas-server-support-json-service-registry&lt;/artifactId&gt;
+    &lt;version&gt;${cas.version}&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>For each CAS service, we have to create a JSON file containing its definition inside a new folder named <code>services</code> under <code>src/main/resources</code> in the overlay. Each JSON file should follow the naming convention, <code>ServiceName-Id.json</code>,</p><pre><code class="language-sh">mkdir src/main/resources/services
+touch src/main/resources/services/ESportsNBA-10000003.json
+touch src/main/resources/services/ESportsUCL-10000004.json
+</code></pre>
+<p>Down below is the content of the <code>ESportsNBA-10000003.json</code> file,</p><pre><code class="language-json">{
+  "@class" : "org.apereo.cas.services.RegexRegisteredService",
+  "serviceId" : "https://localhost:8443/esports/nba/login/cas",
+  "name" : "ESports NBA",
+  "id" : 10000003,
+  "evaluationOrder" : 1
+}
+</code></pre>
+<p>Similarly for the <code>ESportsUCL-10000004.json</code> file,</p><pre><code class="language-json">{
+  "@class" : "org.apereo.cas.services.RegexRegisteredService",
+  "serviceId" : "https://localhost:8443/esports/ucl/login/cas",
+  "name" : "ESports UCL",
+  "id" : 10000004,
+  "evaluationOrder" : 1
+}
+</code></pre>
+<p>The attribute <code>serviceId</code>, in the two previous JSON definitions, is slightly more important that the other attributes, and further explanation about this attribute can be found in the next sections.</p><p>The final step in the CAS services registration, is to enable the JSON service registry and to inform the CAS server about the location of the JSON definition files. To do so we add the following configurations in the <code>application.properties</code> file in the overlay,</p><pre><code class="language-sh">##
+# CAS JSON Service Registry Configuration
+#
+cas.serviceRegistry.initFromJson=true
+cas.serviceRegistry.json.location=classpath:/services
+</code></pre>
+<p>A new build and deployment of the CAS server is required at this stage.</p><h3 id="single-sign-on">Single Sign On</h3><p>We start this section with a simplified workflow of the SSO mechanism.</p><p>For a <strong>first access</strong> to a <strong>first CAS service</strong>:</p><ul><li>An unauthenticated user, requests a secured resource from the first CAS service,</li><li>The CAS service redirects the user's browser to the CAS server's login UI,</li><li>The user provides its credentials and submits the form to the CAS server,</li><li>The CAS server verifies the credentials, authenticates the user and redirects its browser back to requested secured resource,</li><li>Any subsequent access to this CAS service's secured resources will be allowed to this authenticated user.</li></ul><p>For a <strong>first access</strong> to a <strong>second CAS service</strong>:</p><ul><li>The user is already authenticated by the CAS server and the first CAS service, still he is not authenticated by the second CAS service, so upon his first request for a secured resource from the second CAS service, his browser will be redirected to the CAS server login UI,</li><li>Without loading the login UI, the CAS server will detect that the user is already authenticated, so it will inform the second CAS service about the user identity and his authentication details,</li><li>The requested secured resource is loaded, without having the user to submit his credentials again, and that is the Single Sign On, SSO, in action,</li><li>Any subsequent access to this CAS service's secured resources will be allowed to this authenticated user.</li></ul><p>Behind the scenes, this simplified workflow relies basically on very simple web fundamentals, <strong>cookies</strong>, <strong>query string parameters</strong> and <strong>browser redirections</strong>. In the next steps we dive into the technical implementation of the first CAS service "ESports-UCL", and as soon as we finish that, we will get the big picture on the SSO mechanism, which will allow us to elaborate furthermore on the simplified workflow described above.</p><p>The first step, is to generate a new <strong>Spring Boot</strong> project with a <strong>WAR</strong> deployment type and the following dependencies: <strong>Web</strong>, <strong>JPA</strong>, <strong>Postgresql</strong> and <strong>Spring Security</strong>.</p><p>In addition to those dependencies, we add the dependency for the <strong>Spring Security CAS</strong> module in the <code>pom.xml</code> file,</p><pre><code class="language-xml">&lt;!-- ... --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.security&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-security-cas&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;!-- ... --&gt;
+</code></pre>
+<p>The next step, is to configure the beans required by the Spring Security CAS module. To do so we create a <code>CASConfiguration</code> class under a <code>configurations</code> package in which we define the following,</p><pre><code class="language-java">@Configuration
+public class CASConfiguration {
+
+  private final CustomUserDetailsService customUserDetailsService;	
+  
+  @Autowired
+  public CASConfiguration(CustomUserDetailsService customUserDetailsService) {
+    this.customUserDetailsService = customUserDetailsService;
+  }
+
+  @Bean
+  public ServiceProperties serviceProperties() {
+    ServiceProperties serviceProperties = new ServiceProperties();
+    serviceProperties.setService("https://localhost:8443/esports/ucl/login/cas");
+    serviceProperties.setSendRenew(false);
+    return serviceProperties;
+  }
+
+  @Bean
+  public CasAuthenticationEntryPoint casAuthenticationEntryPoint(ServiceProperties serviceProperties) {
+    CasAuthenticationEntryPoint entryPoint = new CasAuthenticationEntryPoint();
+    entryPoint.setLoginUrl("https://localhost:8443/cas/login");
+    entryPoint.setServiceProperties(serviceProperties);
+    return entryPoint;
+  }
+
+  @Bean
+  public TicketValidator ticketValidator() {
+    return new Cas30ServiceTicketValidator("https://localhost:8443/cas");
+  }
+
+  @Bean
+  public CasAuthenticationProvider casAuthenticationProvider() {
+    CasAuthenticationProvider provider = new CasAuthenticationProvider();
+    provider.setServiceProperties(this.serviceProperties());
+    provider.setTicketValidator(this.ticketValidator());
+    provider.setUserDetailsService(this.customUserDetailsService);
+    provider.setKey("CAS_PROVIDER_LOCALHOST_8443");
+    return provider;
+  }
+
+  @Bean
+  public CasAuthenticationFilter casAuthenticationFilter(ServiceProperties serviceProperties) throws Exception {
+    CasAuthenticationFilter filter = new CasAuthenticationFilter();
+    filter.setServiceProperties(serviceProperties);
+    filter.setAuthenticationManager(new ProviderManager(Arrays.asList(this.casAuthenticationProvider())));
+    return filter;
+  }
+
+}
+</code></pre>
+<p>The first bean we defined, is the <code>ServiceProperties</code> bean, in this bean we configure the current CAS service properties. The first property is the service callback URL, <code>https://localhost:8443/esports/ucl/login/cas</code>. This URL must be the same as the value of the <strong>serviceId</strong> attribute in the JSON definition file described in the CAS services registration section. When an unauthenticated user requests a secured resource from this CAS service, its browser will be redirected to the CAS login UI, with this URL appended as a query string parameter, so after a successful login operation his browser will be redirected back to this CAS service.</p><p>The <code>https://localhost:8443</code> part of the URL, is the domain of the deployment server, the <code>/esports/ucl</code> is the location of the CAS service in the deployment server. and the remaining part, <code>/login/cas</code>, is an endpoint which we don't define explicitly, it is handled by the <code>CasAuthenticationFilter</code> bean, however we can change its default value <code>/login/cas</code>.</p><p>The second property in the <code>ServiceProperties</code> bean, <code>sendRenew</code>, is set to <code>false</code> so the user is requested to submit his credentials to the CAS server only once for all subsequent accesses.</p><p>The second bean we defined, is the <code>CasAuthenticationEntryPoint</code> bean, this bean will be called every time an unauthenticated access to a secured resource is detected, which will result in the browser redirection <code>302</code> response. The redirect URL, is constructed from the CAS login URL, <code>https://localhost:8443/cas/login</code>, and the service callback URL taken from the <code>ServiceProperties</code> bean defined previously and used as a query string parameter. So the redirect URL is <code>https://localhost:8443/cas/login?</code> <code>service=https://localhost:8443/esports/ucl/login/cas</code>.</p><p>After obtaining a browser redirect response with the URL mentioned above, the unauthenticated user will proceed by submitting its credentials to the CAS login form. The CAS server after verifying internally the user credentials, authenticates the user by creating a <code>Ticket Granting Ticket</code>, <code>TGT</code>, which is stored in the user's browser as a cookie named <code>Ticket Granting Cookie</code>, <code>TGC</code>, for the <code>https://localhost:8443/cas</code> domain. The <code>TGC</code> represents the user's SSO session, which will be used for any subsequent authentication. After creating the cookie, the CAS server redirects the user's browser to the callback URL which is specified as a query string parameter in the previous URL with a new query string parameter, the <code>Service Ticket</code>, <code>ST</code>. So the new redirect URL should look something like this, <code>https://localhost:8443/esports/ucl/login/cas?ticket=ST-...XYZ</code>. The <code>ST</code> is created by the CAS server and it stands for the access granted by the CAS server to <strong>a specific CAS service</strong> for <strong>a specific user</strong>, and it is meant to be verified by the CAS service against the CAS server by asking the question "Have you recently created this ticket?", and the response from the CAS server should come as an <code>XML</code> data, describing the user details for this specific <code>ST</code>. The <code>ST</code> verification is defined by the <code>TicketValidator</code> bean.</p><p>After receiving the <code>XML</code> response for the <code>ST</code> verification, the CAS service should look up the user in <strong>its own database</strong>, and authenticate him. This is defined in the <code>CasAuthenticationProvider</code> bean and implemented by the injected <code>CustomUserDetailsService</code> bean. This beans definition is given by the following interface,</p><pre><code class="language-java">public interface CustomUserDetailsService extends UserDetailsService {
+
+}
+</code></pre>
+<p>And its implementation is given by the following service,</p><pre><code class="language-java">@Service
+public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
+
+  private final UserService userService;
+  
+  @Autowired
+  public CustomUserDetailsServiceImpl(UserService userService) {
+    this.userService = userService;
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    UserEntity userEntity = this.userService.findUserByEmail(username);
+    if (userEntity == null)
+      throw new UsernameNotFoundException(username);
+    return new User(userEntity.getEmail(), "", userEntity.getIsActive(), true, true, true, AuthorityUtils.createAuthorityList("ROLE_USER"));
+  }
+
+}
+</code></pre>
+<p>This service has only one method, the <code>loadUserByUsername</code> method, it is invoked by the <code>CasAuthenticationProvider</code>, after receiving the <code>XML</code> response for the <code>ST</code> validation from the CAS server. The implementation looks for the user using its principal from the <code>XML</code> response, in this example the principal is the user's email address, that's why we have to keep the email addresses consistent between the <strong>CAS server database</strong>, and the <strong>CAS services databases</strong>. Another note to take is that the password field is set to a blank value, as it will never be used and the CAS service database stores no passwords. After the user is found, the <code>loadUserByUsername</code> returns a new <code>User</code> instance, used by the <code>CasAuthenticationProvider</code> to populate the Spring Security <code>Authentication</code> object and to update the application's <code>SecurityContext</code>.</p><p>The <code>UserEntity</code> is a domain object which is mapped to its own table in the CAS service's database, and it is not the same as the <code>User</code> object which belongs to the Spring Security module. The <code>UserEntity</code> is defined as the following,</p><pre><code class="language-java">@Entity
+@Table(name = "USERS")
+@EntityListeners(AuditingEntityListener.class)
+public class UserEntity implements Serializable {
+
+  private static final long serialVersionUID = 5664002358210231888L;
+
+  @Id
+  private String id;
+
+  @NotBlank
+  @Column(nullable = false)
+  private String firstName;
+
+  @NotBlank
+  @Column(nullable = false)
+  private String lastName;
+
+  @Email
+  @Column(nullable = false, unique = true)
+  private String email;
+
+  @Column(nullable = false)
+  private boolean isActive;
+
+  @CreatedDate
+  @Column(nullable = false)
+  private LocalDateTime createdAt;
+
+  @LastModifiedDate
+  @Column(nullable = false)
+  private LocalDateTime updatedAt;
+
+  // constructors...
+
+  // getters and setters...
+
+}
+</code></pre>
+<p>After authenticating the user by the CAS service, a final redirection is made to get rid of the <code>ST</code>, as it has served its very purpose. A new session is created for the authenticated user in the CAS service side, and as a result a <code>JSESSIONID</code> cookie is returned to the user's browser to be stored for the <code>https://localhost:8443</code> domain at the <code>/esports/ucl</code> path. Any subsequent requests will use the <code>JSESSIONID</code> cookie to authenticate the user.</p><p>The final bean, which is the <code>CasAuthenticationFilter</code> bean, defines a <code>Filter</code> that intercepts requests made against <code>/login/cas</code> endpoint which contain typically the <code>ST</code> as a query string parameter. Their interception triggers the ticket validation workflow against the CAS server. To note that the <code>/login/cas</code> endpoint should be accessible and not secured.</p><p>Now that all beans needed by the SSO mechanism are defined, it's time to move to the Spring Security configuration. We define a <code>SecurityConfiguration</code> class which extends the <code>WebSecurityConfigurerAdapter</code> as follow,</p><pre><code class="language-java">@Configuration
+@EnableWebSecurity
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+  private final CasAuthenticationProvider casAuthenticationProvider;
+  private final CasAuthenticationEntryPoint casAuthenticationEntryPoint;
+  
+  @Autowired
+  public SecurityConfiguration(CasAuthenticationProvider casAuthenticationProvider, CasAuthenticationEntryPoint casAuthenticationEntryPoint) {
+    this.casAuthenticationProvider = casAuthenticationProvider;
+    this.casAuthenticationEntryPoint = casAuthenticationEntryPoint;
+  }
+
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.authenticationProvider(this.casAuthenticationProvider);
+  }
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.csrf()
+        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+    http.authorizeRequests()
+        .regexMatchers("/api.*")
+        .authenticated();
+    http.httpBasic()
+        .authenticationEntryPoint(this.casAuthenticationEntryPoint);
+  }
+
+}
+</code></pre>
+<p>As any typical Spring Security configuration, we define an <code>AuthenticationEntryPoint</code> and an <code>AuthenticationProvider</code>. Additionally, we define the security rules, in this case, any unauthenticated request made against any endpoint that begins with <code>/api</code> should trigger the <code>CasAuthenticationEntryPoint</code> which in turn will trigger the whole workflow described above.</p><p>The final step before testing the SSO workflow, is to add a secured endpoint. The following <code>/api/teams</code> endpoint, returns simply a list of "UCL" teams for authenticated users,</p><pre><code class="language-java">@RestController
+@RequestMapping(value = "/api/teams")
+public class TeamController {
+
+  private final TeamService teamService;
+  
+  @Autowired
+  public TeamController(TeamService teamService) {
+    this.teamService = teamService;
+  }
+  
+  @RequestMapping(value = "", method = RequestMethod.GET)
+  public Collection&lt;TeamEntity&gt; getAllTeams() {	
+    return this.teamService.getAllTeams();
+  }
+  
+}
+</code></pre>
+<p>To note that, same as the CAS server, the "ESports-UCL" CAS service uses a manually populated database, for the simple reason that, it is not so interesting to implement endpoints for creating users and teams.</p><p>Now, after building the "ESports-UCL" CAS service, and assuming that it is deployed successfully inside the <strong>same deployment server as the CAS server</strong>, under a folder named <code>esports#ucl</code>, and assuming that an instance of a Postgres database server is already running. When visiting <code>https://localhost:8443/esports/ucl/api/teams</code> from the browser, the browser will be redirected to the CAS login UI, and after typing a valid credentials of a user that is available in both the CAS server and the CAS service databases, we can successfully get a list of all the teams stored in the "ESports-UCL" database.</p><figure class="kg-card kg-image-card kg-card-hascaption"><figcaption>Requesting the secured teams list</figcaption></figure><p>With this test, we have successfully proved the collaboration between the "ESports-UCL" CAS service's backend component and the CAS server for authenticating users and protecting the resources. And now it's time to add Angular to the mix, to build the "ESports-UCL" CAS service's frontend component. To do so, we have to understand first where the Angular project will fit into "ESports-UCL" CAS service.</p><p>Angular, is a javascript framework, and like any other javascript framework, its build artifact, is just a bunch of static HTML, CSS and JS files. However in the case of Angular as a javascript framework, the build artifact will give in addition to the CSS and JS files, <strong>a single HTML file</strong>, the <code>index.html</code>, and hence, the concept of a <strong>Single Page Application</strong>, <strong>SPA</strong>, which is the domain expertise of Angular. On the other hand, Spring Boot, given a file named, <code>index.html</code> under the <code>src/main/resources/static</code> folder or under the <code>WEB-INF/classes/static</code> folder in the case of a WAR deployment, will map it out of the box to the application root endpoint <code>/</code>. So all we have to do is, to combine the build of the Spring Boot application and the build of the Angular application in order to obtain <strong>a single deployable WAR folder</strong>, which may have a structure similar to the following,</p><pre><code class="language-sh">$CATALINA_HOME/webapps/esports#ucl/
+│── META-INF
+│── WEB-INF
+    │── classes
+    │   │── application.properties
+    │   │── org
+    │   │   │── esports
+    │   │       │── ucl
+    │   │           │── Application.class
+    │   │           │── configurations
+    │   │           │   │── CASConfiguration.class
+    │   │           │   │── SecurityConfiguration.class
+    │   │           │── controllers
+    │   │           │   │── TeamController.class
+    │   │           │── entities
+    │   │           │   │── TeamEntity.class
+    │   │           │   │── UserEntity.class
+    │   │           │── repositories
+    │   │           │   │── TeamRepository.class
+    │   │           │   │── UserRepository.class
+    │   │           │── services
+    │   │               │── CustomUserDetailsService.class
+    │   │               │── TeamService.class
+    │   │               │── UserService.class
+    │   │               │── impl
+    │   │                   │── CustomUserDetailsServiceImpl.class
+    │   │                   │── TeamServiceImpl.class
+    │   │                   │── UserServiceImpl.class
+    │   │── static
+    │       │── 3rdpartylicenses.txt
+    │       │── favicon.ico
+    │       │── index.html
+    │       │── main-es2015.3504748da6ac4fc3db2c.js
+    │       │── main-es5.df69f8ff1f61b395f2a7.js
+    │       │── polyfills-es2015.5728f680576ca47e99fe.js
+    │       │── polyfills-es5.7f43b971448d2fb49202.js
+    │       │── runtime-es2015.858f8dd898b75fe86926.js
+    │       │── runtime-es5.741402d1d47331ce975c.js
+    │       │── styles.0e4338761429b4eb16ac.css
+    │── lib/...
+</code></pre>
+<p>The files, under the <code>WEB-INF/classes/static</code> folder are the files of the build of a simple Angular application, now if we reload the server and visit <code>https://localhost:8443/esports/ucl</code>, we get the following greeting message, which means that the Angular application has successfully loaded from within a Spring Boot application, both deployed as a single WAR insider an Apache Tomcat server,</p><figure class="kg-card kg-image-card kg-card-hascaption"><figcaption>"ESports-UCL" CAS service's UI</figcaption></figure><p>Now, we may have noticed that the request for the <code>index.html</code> file from the server hasn't triggered the CAS authentication mechanism. And that's totally normal, as we have configured the security rules earlier, to protect only the resources under the endpoints that begin with <code>/api</code>. So the question now, is whether to add or not a security rule to protect the access to the Angular application? The answer is, it depends. For example, if the Angular application has some public routes, then protecting the <code>index.html</code> file, means to prevent the access to the whole Angular application and so there are no public routes anymore. Besides that, the Angular application is just a <code>HTTP</code> client, and since the backend component which represents the data access and the business logic, is protected, we can say it's a decent security solution. However, if accessing to the Angular application, the <code>index.html</code> file, does not trigger the CAS authentication mechanism, then what does trigger it? That is simply, the <code>XML HTTP Requests</code>, <code>XHR</code>, made by the Angular application against the backend secured endpoint. So the strategy will be, to give the user access to the Angular application, and as soon as, he requests a protected resource from the backend component via the Angular application, the CAS login UI, will be presented to authenticate him.</p><p>Typically, from the frontend perspective, when the user attempts to access a private area of the web application, he will be prompted to submit his credentials, and after successful authentication, the frontend component gets the user details whether to display a greeting message, setup a specific UI, or for whatever reason. In our case, the Angular application as a frontend component, will not prompt the user to submit his credentials, it the CAS login UI's responsibility. However, we still need the user details, if he attempts to access a private area, and this use case is a suitable candidate to be the CAS authentication mechanism trigger.</p><p>In the Angular project, we introduce the <code>AppLayoutComponent</code> which is a shell component that contains the common UI elements across the application, and has some routed children, such as the <code>TeamsComponent</code>. The <code>AppLayoutComponent</code>, will be loaded inside the <code>AppComponent</code>, the root component, and it has a navigation bar that displays the user full name. So when the Angular application loads, the <code>AppLayoutComponent</code> will be the default component to be routed, and as soon as it asks for the user details, the CAS authentication mechanism will be triggered.</p><p>The following is the routing configuration of the Angular application,</p><pre><code class="language-typescript">const APP_ROUTES: Routes = [
+  {
+    path: 'app',
+    component: AppLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: TeamsComponent
+      },
+      {
+        path: '**',
+        redirectTo: '',
+        pathMatch: 'full'
+      }
+    ]
+  },
+  {
+    path: '**',
+    redirectTo: 'app',
+    pathMatch: 'full'
+  }
+];
+
+@NgModule({
+imports: [ RouterModule.forRoot(APP_ROUTES, { useHash: true }) ],
+exports: [ RouterModule ]
+})
+export class AppRoutingModule {}
+</code></pre>
+<p>So the idea is, when the user visits <code>https://localhost:8443/esports/ucl</code>, the Angular application is loaded, and the user will be forwarded automatically to <code>https://localhost:8443/esports/ucl/#/app</code> which leads to <code>AppLayoutComponent</code>. The <code>AppLayoutComponent</code>, as soon as it is called, will attempt to request for the user details and this attempt will fail resulting in the CAS authentication mechanism being triggered. To get the user details, the <code>AppLayoutComponent</code> will fire a request against an endpoint named <code>/api/users/authenticated</code>, and since this endpoint's name starts with <code>/api</code> which means that it is protected, a redirection to the CAS login UI will be made.</p><p>The code snippet that will request the backend component for the user details, is given below,</p><pre><code class="language-typescript">@Component({
+  templateUrl: '/app-layout.component.html',
+  styleUrls: [ './app-layout.component.scss' ]
+})
+export class AppLayoutComponent implements OnInit {
+
+  user: User = new User();
+
+  constructor(
+    private http: HttpClient
+  ) {}
+
+  ngOnInit() {
+    this.http.get&lt;User&gt;('https://localhost:8443/esports/ucl/api/users/authenticated', {}).subscribe(
+      (user: User) =&gt; this.user = user,
+      (error: any) =&gt; console.log(error)
+    );
+  }
+
+}
+</code></pre>
+<p>Unfortunately, this code will fail not because, an authentication error, or a remote call failure, but because of the redirection. In fact, the redirection, is a browser server dance, which javascript and its frameworks doesn't know its steps. The call to the <code>/api/users/authenticated</code> endpoint has returned a <code>302</code> redirection response to the browser not to the Angular application, since the user is not yet authenticated. The browser then will follow the redirection to the <code>https://localhost:8443/cas/login?</code> <code>service=https%3A%2F%2Flocalhost%3A8443%2Fesports%2Fucl%2Flogin%2Fcas</code> URL, which return the CAS login UI with a <code>200</code> <code>HTTP</code> status, however this UI is never displayed, because it is returned as <code>HTML</code> text to the <code>HTTP</code> call made by the code above which is waiting for a <code>JSON</code> representation of the <code>User</code> object. So the call is made, and the redirection has happened, but there is a parsing problem. The error details are given below,</p><figure class="kg-card kg-image-card kg-card-hascaption"><figcaption>HTML text to JSON parsing error</figcaption></figure><p>To get around this issue, we introduce an <code>ErrorInterceptor</code> in the angular application. This interceptor's job is to detect this parsing error, check if the URL of the error is for CAS login UI and manually change the browser location to the CAS login URL,</p><pre><code class="language-typescript">@Injectable()
+export class ErrorInterceptor implements HttpInterceptor {
+
+  intercept(request: HttpRequest&lt;any&gt;, next: HttpHandler): Observable&lt;HttpEvent&lt;any&gt;&gt; {
+    return next.handle(request).pipe(
+      catchError((error: HttpErrorResponse) =&gt; {
+        if ((error.status === 200 &amp;&amp; error.url &amp;&amp; error.url.includes('/cas/login')) || error.status === 401 || error.status === 403) {
+        window.location.href = 'https://localhost:8443/cas/login?service=https%3A%2F%2Flocalhost%3A8443%2Fesports%2Fucl%2Flogin%2Fcas';
+        }
+        return throwError(error);
+      })
+    );
+  }
+
+}
+</code></pre>
+<p>Now, when an unauthenticated user visits <code>https://localhost:8443/esports/ucl</code>, the Angular application loads, a forward to <code>https://localhost:8443/esports/ucl/#/app</code> will be made, which loads the <code>AppLayoutComponent</code> that fires upon start up a request to the secured <code>/api/users/authenticated</code> endpoint causing a redirection to the CAS login UI. The redirection response, <code>HTML</code> text, leads to a parsing error that will be caught by the <code>ErrorInterceptor</code> and a manual browser location update will be made. Thus the CAS login UI is displayed, the user then authenticate, and as a result a cookie is created and stored at his browser, and the secured endpoints are now accessible for the Angular application.</p><figure class="kg-card kg-image-card kg-card-hascaption"><figcaption>Angular application in action</figcaption></figure><p>Before, moving on to the last section of this blog post, the Single Log Out section, let's review the Single Sign On workflow for one more time,</p><ul><li>An unauthenticated user requests a protected resource, <code>GET - https://localhost:8443/esports/ucl/api/teams</code> ,</li><li>Spring Security filter detects an <code>AuthenticationException</code> and an <code>AuthenticationEntryPoint</code> will be triggered, in this case the <code>CasAuthenticationEntryPoint</code> bean. This bean is configured with the CAS server login URL and the <code>ServiceProperties</code> bean which contains the service callback URL,</li><li>The <code>CasAuthenticationEntryPoint</code> redirects the user's browser to the CAS server login URL, with the service callback URL appended as a query string parameter, as the following, <code>https://localhost:8443/cas/login?</code> <code>service=https%3A%2F%2Flocalhost%3A8443%2Fesports%2Fucl%2Flogin%2Fcas</code> </li><li>The user's browser, follows the redirection URL and as a result, the CAS server login UI is presented to the user,</li><li>The user provides its credentials and submits the form to the CAS server,</li><li>The CAS server authenticates the user, creates a Ticket Granting Ticket, <code>TGT</code> , and returns it to the browser to be stored as a Ticket Granting Cookie, <code>TGC</code> , at <code>https://localhost:8443/cas/</code>. This cookie represents the user's <code>SSO</code> session which will be used instead of the user's email and password for eventual authentications to other CAS services,</li><li>The CAS server redirects then the user's browser to the service  callback URL, provided previously as a query string parameter, <code>https://localhost:8443/esports/ucl/login/cas</code> , but with a new query string parameter, the Service Ticket, <code>ST</code> . This ticket is created by the CAS server, and it stands for the accesses granted by the CAS server to a specific CAS service for a specific user, and it is meant to be validated by the CAS service against the CAS server,</li><li>The browser is now redirected to <code>https://localhost:8443/esports/ucl/login/cas?ticket=ST-...XYZ</code> , this request will be intercepted by the <code>CasAuthenticationFilter</code> as it is always listening for request to the <code>/login/cas</code> by default,</li><li>The <code>CasAuthenticationFilter</code> bean is configured with the <code>ServiceProperties</code> and the <code>CasAuthenticationProvider</code> beans. The <code>CasAuthenticationProvider</code> bean is configured with a <code>TicketValidator</code> bean which will use an <code>HTTPS</code> request against the CAS server to validate the received <code>ST</code> as a query string parameter,</li><li>The CAS server receives the ticket validation request from the CAS service, validates it, and responds with an <code>XML</code> content which contains details about the user to whom the <code>ST</code> was created,</li><li>The CAS service, parses the <code>XML</code> response, retrieves information about the user, validates its existence in its own data storage, and creates a new <code>HttpSession</code> , and returns its identifier to the user's browser as a <code>JSESSIONID</code> cookie which will be stored at <code>https://localhost:8443/esports/ucl/</code> ,</li><li>Finally, the user's browser is redirected to the originally requested resource, <code>https://localhost:8443/esports/ucl/api/teams</code> , and any subsequent requests to the same CAS service will use the <code>JSESSIONID</code> cookie as an identifier.</li></ul><h3 id="single-log-out">Single Log Out</h3><p>As described previously, the authentication process takes place, in the CAS server and the CAS services, so when a user authenticates, he is authenticated on the CAS server level via a Ticket Granting Cookie, the <code>TGC</code> , and on the CAS services level via a <code>JSESSIONID</code> . And as a consequence, the log out process needs to happen on the same two levels, logging out the user from one of the CAS services, means that the user is still logged in on the CAS server level and he can also access the other CAS services registered to this CAS server, this is the service log out process. Logging out the user from the CAS server, means user can no longer access any of the services registered to this CAS server, and this is the single log out process, SLO. Both of these two log out processes, need to be implemented, and it is recommended that the user logs out from the CAS service first before he logs out completely from the CAS server.</p><p>When it comes, to the CAS service log out process, we find that Spring Security module already provides this feature out of the box by exposing and endpoint named <code>/logout</code> . However, the default behavior of this feature, after having the user logged out, it attempts to redirect his browser to <code>/login?logout</code> , which is mapped typically to the application's login UI, and as our application is a CAS service, it doesn't have such a UI. Fortunately, Spring Security module is highly customizable and it does provides the developers with some extension points to implement their own behavior. Such an extension point is, the <code>LogoutSuccessHandler</code>, which can be configured and added to the <code>HttpSecurity</code> object to override the default behavior of the application after a successful log out. The following is an example of a possible log out success customization,</p><pre><code class="language-java">http.logout()
+    .logoutSuccessHandler((httpServletRequest, httpServletResponse, authentication) -&gt; {
+      httpServletResponse.addHeader("Set-Cookie", "JSESSIONID=; Max-Age=0; Expires=Thu, 01-Jan-1970 00:00:10 GMT");
+      httpServletResponse.addHeader("Set-Cookie", "XSRF-TOKEN=; Max-Age=0; Expires=Thu, 01-Jan-1970 00:00:10 GMT");
+      httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+    });
+</code></pre>
+<p>This customization, returns a <code>200</code> success response, instead of a <code>302</code> redirect response, and it clears the cookies created previously by setting blank values and expired dates. And in the frontend component, it's just a matter of sending a <code>POST</code> request to the <code>/logout</code> endpoint, and routing to a sign out view upon success response,</p><pre><code class="language-typescript">this.http.post&lt;void&gt;('https://localhost:8443/esports/ucl/logout', {}).subscribe(
+  () =&gt; this.router.navigateByUrl('/sign-out'),
+  (error) =&gt; console.log(error)
+);
+</code></pre>
+<figure class="kg-card kg-image-card kg-card-hascaption"><figcaption>Logging out from "ESports-UCL" CAS service</figcaption></figure><p>The second log out process is the Single Log Out process. The SLO is a duplex communication channel between the CAS server and its services, a CAS service requests a single log out from the CAS server, and the CAS server broadcasts a single log out signal to all the other services to invalidate the session of the current user. Thus, a CAS service has to send and receive single log out requests. To do so, we start by configuring some beans in the <code>CASConfiguration</code> class as the following,</p><pre><code class="language-java">@Configuration
+public class CASConfiguration {
+
+  // ...
+
+  @Bean
+  public SecurityContextLogoutHandler securityContextLogoutHandler() {
+    return new SecurityContextLogoutHandler();
+  }
+
+  @Bean
+  public LogoutFilter logoutFilter() {
+    LogoutFilter logoutFilter = new LogoutFilter("https://localhost:8443/cas/logout", this.securityContextLogoutHandler());
+    logoutFilter.setFilterProcessesUrl("/logout/cas");
+    return logoutFilter;
+  }
+
+  @Bean
+  public SingleSignOutFilter singleSignOutFilter() {
+    SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
+    singleSignOutFilter.setCasServerUrlPrefix("https://localhost:8443/cas");
+    singleSignOutFilter.setIgnoreInitConfiguration(true);
+    return singleSignOutFilter;
+  }
+
+  @EventListener
+  public SingleSignOutHttpSessionListener singleSignOutHttpSessionListener(HttpSessionEvent event) {
+    return new SingleSignOutHttpSessionListener();
+  }
+
+}
+</code></pre>
+<p>The <code>LogouFilter</code> bean comes from the Spring Security module, it defines an endpoint against which, log out requests will be fired, in this case <code>/logout/cas</code>, uses a <code>LogoutHandler</code> , to log the user out from the current CAS service, and sets a log out success url to which the user's browser will be redirected after the log out operation, in this case <code>https://localhost:8443/cas/logout</code>. The redirection to this URL, will notify the CAS server's <code>/logout</code> endpoint, and as a result the Ticket Granting Cookie, <code>TGC</code>, will be invalidated and a single logout signal will be broadcasted to the other CAS services to update their own session management accordingly.</p><p>The <code>SingleSignOutFilter</code> bean handles single log out requests coming from the CAS server, and destroys the session using an instance of a <code>SingleSignOutHandler</code>.</p><p>Next, those beans have to be injected in the <code>SecurityConfiguration</code> class and added to the configuration as the following,</p><pre><code class="language-java">@Configuration
+@EnableWebSecurity
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+  // ...
+  private final LogoutFilter logoutFilter;
+  private final SingleSignOutFilter singleSignOutFilter;
+
+  @Autowired
+  public SecurityConfiguration(/* ... */ LogoutFilter logoutFilter, SingleSignOutFilter singleSignOutFilter) {
+    // ...
+    this.logoutFilter = logoutFilter;
+    this.singleSignOutFilter = singleSignOutFilter;
+  }
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    // ...
+    http.addFilterBefore(this.logoutFilter, LogoutFilter.class);
+    http.addFilterBefore(this.singleSignOutFilter, CasAuthenticationFilter.class);
+  }
+	
+}
+</code></pre>
+<p>Finally, in the frontend component it is just a matter of adding a link in the sign out view asking the user to click if he wishes to be logged out from the other CAS services as well,</p><pre><code class="language-html">&lt;a href="https://localhost:8443/esports/ucl/logout/cas"&gt;Click here if you want to sign out from other applications as well.&lt;/a&gt;
+</code></pre>
+<figure class="kg-card kg-image-card kg-card-hascaption"><figcaption>The final result</figcaption></figure><h2 id="conclusion">Conclusion</h2><p>This blog post was an extensive introduction to the SSO and SLO concepts, and a practical integration of CAS with a sample application developed using Spring and Angular frameworks. However, what was implemented in this example is just a proof of concept, and is not suitable for any production usage. There are many configurations yet to explore, and more protocols provided by CAS to read about in their official documentation.</p><h2 id="resources">Resources</h2><ul><li>CAS server overlay used in this blog post,</li><li>"ESports-UCL" CAS service frontend and backend source code,</li><li>"ESports-NBA" CAS service frontend and backend source code.</li></ul><h2 id="references">References</h2><ul><li><a href="https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#cas">CAS Authentication</a> from Spring Security documentation,</li><li><a href="https://apereo.github.io/cas/5.3.x/protocol/CAS-Protocol.html">CAS Protocol</a> from CAS documentation.</li></ul>
+
+            </section>
+
+        </article>
+    </main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="../../index.html">Nader Debbabi&#x27;s Blog</a> &copy; 2019</section>
+        <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+    </footer>
+</body>
+</html>
