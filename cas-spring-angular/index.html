@@ -14,7 +14,7 @@
 		
 		<title>SSO and SLO for Spring Boot and Angular applications with CAS</title>
 
-		<link rel="stylesheet" type="text/css" href="../assets/styles/main.css%3Fv=062e9b5729.css" />
+		<link rel="stylesheet" type="text/css" href="../assets/styles/main.css%3Fv=06f628f5f1.css" />
 
 		<meta name="description" content="SSO and SLO implementation for Spring Boot and Angular applications with CAS, using Apache Tomcat server, Postgres database server, and Maven." />
     <link rel="shortcut icon" href="../favicon.png" type="image/png" />
@@ -29,7 +29,7 @@
     <meta property="og:url" content="https://debbabi-nader.github.io/cas-spring-angular/" />
     <meta property="og:image" content="https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ" />
     <meta property="article:published_time" content="2019-10-21T00:54:53.000Z" />
-    <meta property="article:modified_time" content="2019-10-23T02:21:39.000Z" />
+    <meta property="article:modified_time" content="2019-10-26T00:23:28.000Z" />
     <meta property="article:tag" content="CAS" />
     <meta property="article:tag" content="Spring" />
     <meta property="article:tag" content="Angular" />
@@ -70,7 +70,7 @@
     "headline": "SSO and SLO for Spring Boot and Angular applications with CAS",
     "url": "https://debbabi-nader.github.io/cas-spring-angular/",
     "datePublished": "2019-10-21T00:54:53.000Z",
-    "dateModified": "2019-10-23T02:21:39.000Z",
+    "dateModified": "2019-10-26T00:23:28.000Z",
     "image": {
         "@type": "ImageObject",
         "url": "https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjExNzczfQ",
@@ -156,7 +156,7 @@
 		<div class="inner">
 
 			<section class="post-content">
-				<h2 id="overview">Overview</h2><p>It is often ordinary and typical to find in enterprises environment, a suite of applications and tools used internally by the personnel to perform a bunch of tasks and domain specific pieces of work. And although, a similar suite of applications if found in any enterprise ecosystem, may have different purposes and different features, they all still have a very one common requirement, that is authenticating users. And being in an enterprise environment, authorization and access levels management can be fairly added to this common requirement.</p><p>In software development and architecture, the word <strong>common</strong>, has in most cases led to a strong a believe, that something has to be <strong>encapsulated</strong> and <strong>isolated</strong>, holding its own <strong>responsibilities</strong> as a <strong>self contained</strong> component. And in the case of the authentication as a one common requirement, the concepts of <strong>Single Sign On</strong>, <strong>SSO</strong>, and <strong>Single Log Out</strong>, <strong>SLO</strong>, has not recently emerged to emphasize the necessity to separate the responsibility of authenticating users from the suite of the used applications and grant it to a one centralized self contained software component.</p><p>This blog post's mere purpose is to implement <strong>SSO</strong> and <strong>SLO</strong> functionalities by integrating a <strong>Central Authentication Service</strong>, <strong>CAS</strong>, with a suite of two <strong>Spring Boot</strong> and <strong>Angular</strong> applications. The source code and all the resources used in this blog post, are available on Github, links are specified at the end of this blog post in the resources section.</p><h2 id="prerequisites">Prerequisites</h2><p>The tools listed down below and their versions, are used to build the different components described in this blog post,</p><ul><li><strong>Maven</strong> 3.6.2</li><li><strong>Java</strong> 1.8</li><li><strong>Node.js</strong> 10.16.0 and <strong>NPM</strong> 6.9.0</li><li><strong>Angular CLI</strong> 8.0.2</li><li><strong>Apache Tomcat Server</strong> 9.0.22</li><li><strong>PostgreSQL</strong> 11.5</li><li><strong>Git</strong></li></ul><h2 id="agenda">Agenda</h2><!--kg-card-begin: markdown--><ul>
+				<h2 id="overview">Overview</h2><p>It is often ordinary and typical to find in enterprises environment, a suite of applications and tools used internally by the personnel to perform a bunch of tasks and domain specific pieces of work. And although, a similar suite of applications if found in any enterprise ecosystem, may have different purposes and different features, they all still have a very one common requirement, that is authenticating users. And being in an enterprise environment, authorization and access levels management can be fairly added to this common requirement.</p><p>In software development and architecture, the word <strong>common</strong>, has in most cases led to a strong a believe, that something has to be <strong>encapsulated</strong> and <strong>isolated</strong>, holding its own <strong>responsibilities</strong> as a <strong>self contained</strong> component. And in the case of the authentication as a one common requirement, the concepts of <strong>Single Sign On</strong>, <strong>SSO</strong>, and <strong>Single Log Out</strong>, <strong>SLO</strong>, has not recently emerged to emphasize the necessity to separate the responsibility of authenticating users from the suite of the used applications and grant it to a one centralized self contained software component.</p><p>This blog post's mere purpose is to implement <strong>SSO</strong> and <strong>SLO</strong> functionalities by integrating a <strong>Central Authentication Service</strong>, <strong>CAS</strong>, with a suite of two <strong>Spring Boot</strong> and <strong>Angular</strong> applications. The source code and all the resources used in this blog post, are available on Github, links are specified at the end of this blog post in the <a href="index.html#resources">resources</a> section.</p><h2 id="prerequisites">Prerequisites</h2><p>The tools listed down below and their versions, are used to build the different components described in this blog post,</p><ul><li><strong>Maven</strong> 3.6.2</li><li><strong>Java</strong> 1.8</li><li><strong>Node.js</strong> 10.16.0 and <strong>NPM</strong> 6.9.0</li><li><strong>Angular CLI</strong> 8.0.2</li><li><strong>Apache Tomcat Server</strong> 9.0.22</li><li><strong>PostgreSQL</strong> 11.5</li><li><strong>Git</strong></li></ul><h2 id="agenda">Agenda</h2><!--kg-card-begin: markdown--><ul>
 <li>
 <h3 id="casserver"><a href="index.html#cas-server">CAS server</a></h3>
 <ul>
@@ -825,7 +825,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			</footer>
 		</section>
 
-		<script type="text/javascript" src="../assets/scripts/main.js%3Fv=062e9b5729"></script>
+		<script type="text/javascript" src="../assets/scripts/main.js%3Fv=06f628f5f1"></script>
 
 		
 
